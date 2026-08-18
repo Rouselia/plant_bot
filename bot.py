@@ -360,4 +360,6 @@ if __name__ == "__main__":
     print("⏳ Очікую повідомлення...")
     
     # 3. Запускаємо бота
+    bot.remove_webhook()  
+    
     bot.infinity_polling()
