@@ -1,9 +1,23 @@
 import telebot
 from telebot import types
 import sqlite3
-from datetime import datetime, timedelta
+from datetime import datetime
 import schedule
 import time
+import threading
+from flask import Flask
+
+# Ось цей блок додайте прямо після імпортів:
+app = Flask(__name__)
+
+@app.route('/')
+def home():
+    return "Bot is running!"
+
+def run_web_server():
+    port = int(os.environ.get('PORT', 10000))
+    app.run(host='0.0.0.0', port=port)
+# Кінець блоку
 
 TOKEN = "8721909391:AAHj-d5NlPqYlZ586w3TnPy5RRN7VWuTw8I"
 bot = telebot.TeleBot(TOKEN)
@@ -336,7 +350,13 @@ schedule.every().hour.do(check_watering)
 
 # --- ЗАПУСК БОТА ---
 if __name__ == "__main__":
+    # 1. Запускаємо фейковий веб-сервер (щоб Render не закрив бота)
+    threading.Thread(target=run_web_server).start()
+    
+    # 2. Ваші красиві принт-повідомлення
     print("🌿 Бот 'РостОк' запущено!")
     print("📚 Каталог містить 24 рослини")
     print("⏳ Очікую повідомлення...")
+    
+    # 3. Запускаємо бота
     bot.infinity_polling()
