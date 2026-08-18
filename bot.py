@@ -5,6 +5,7 @@ from datetime import datetime
 import schedule
 import time
 import threading
+import os 
 from flask import Flask
 
 # Ось цей блок додайте прямо після імпортів:
